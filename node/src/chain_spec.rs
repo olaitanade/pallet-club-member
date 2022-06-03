@@ -1,14 +1,13 @@
 use frame_benchmarking::frame_support::metadata::StorageEntryModifier::Default;
 use node_template_runtime::{
-	AccountId, AuraConfig, BalancesConfig, GenesisConfig, GrandpaConfig, Signature, SudoConfig, TemplateModuleConfig, ClubMemberConfig,
-	SystemConfig, WASM_BINARY,
+	AccountId, AuraConfig, BalancesConfig, ClubMemberConfig, GenesisConfig, GrandpaConfig,
+	Signature, SudoConfig, SystemConfig, TemplateModuleConfig, WASM_BINARY,
 };
 use sc_service::ChainType;
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
 use sp_core::{sr25519, Pair, Public};
 use sp_finality_grandpa::AuthorityId as GrandpaId;
 use sp_runtime::traits::{IdentifyAccount, Verify};
-
 
 // The URL for the telemetry server.
 // const STAGING_TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
@@ -134,16 +133,14 @@ fn testnet_genesis(
 	endowed_accounts: Vec<AccountId>,
 	_enable_println: bool,
 ) -> GenesisConfig {
-
 	use sp_std::default::Default;
 
-	let registered_club1 =  (0 as  u8, b"chelsea".to_vec());
-	let registered_club2 =  (1 as u8, b"arsenal".to_vec());
+	let registered_club1 = (0 as u8, b"chelsea".to_vec());
+	let registered_club2 = (1 as u8, b"arsenal".to_vec());
 
 	let mut registered_clubs_vec = vec![];
 	registered_clubs_vec.push(registered_club1);
 	registered_clubs_vec.push(registered_club2);
-
 
 	GenesisConfig {
 		system: SystemConfig {
@@ -167,11 +164,11 @@ fn testnet_genesis(
 		transaction_payment: Default::default(),
 		template_module: TemplateModuleConfig {
 			phantom: Default::default(),
-			registered_clubs: Some(registered_clubs_vec.clone())
+			registered_clubs: Some(registered_clubs_vec.clone()),
 		},
 		club_member: ClubMemberConfig {
 			phantom: Default::default(),
-			registered_clubs: Some(registered_clubs_vec.clone())
-		}
+			registered_clubs: Some(registered_clubs_vec.clone()),
+		},
 	}
 }

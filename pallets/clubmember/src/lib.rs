@@ -3,8 +3,6 @@
 pub use pallet::*;
 use sp_std::prelude::*;
 
-
-
 #[frame_support::pallet]
 pub mod pallet {
 	use super::*;
@@ -12,7 +10,6 @@ pub mod pallet {
 	use frame_system::pallet_prelude::*;
 	use scale_info::prelude::{vec, vec::Vec};
 	use sp_std::default::Default as OtherDefault;
-
 
 	// The struct on which we build all of our Pallet logic.
 	#[pallet::pallet]
@@ -58,13 +55,13 @@ pub mod pallet {
 	#[pallet::getter(fn clubs)]
 	/// Maps each club to the members which are the accounts
 	pub(super) type ClubMembers<T: Config> =
-	StorageMap<_, Blake2_128Concat, Vec<u8>, Vec<T::AccountId>, OptionQuery>;
+		StorageMap<_, Blake2_128Concat, Vec<u8>, Vec<T::AccountId>, OptionQuery>;
 
 	#[pallet::storage]
 	#[pallet::getter(fn registered_clubs)]
 	/// Maps each club to the members which are the accounts
 	pub(super) type RegisteredClubs<T: Config> =
-	StorageMap<_, Blake2_128Concat, u8, Vec<u8>, OptionQuery>;
+		StorageMap<_, Blake2_128Concat, u8, Vec<u8>, OptionQuery>;
 
 	#[pallet::genesis_config]
 	pub struct GenesisConfig<T: Config> {
@@ -107,7 +104,7 @@ pub mod pallet {
 			// ensure club_name exist in ClubNames storage
 			let registered_club = RegisteredClubs::<T>::iter_values();
 
-			let registered_club_count =  RegisteredClubs::<T>::iter_values().count();
+			let registered_club_count = RegisteredClubs::<T>::iter_values().count();
 
 			ensure!(
 				registered_club_count as u8 >= T::MinRegisteredClub::get(),
@@ -164,7 +161,7 @@ pub mod pallet {
 			// ensure club_name exist in ClubNames storage
 			let registered_club = RegisteredClubs::<T>::iter_values();
 
-			let registered_club_count =  RegisteredClubs::<T>::iter_values().count();
+			let registered_club_count = RegisteredClubs::<T>::iter_values().count();
 
 			ensure!(
 				registered_club_count as u8 >= T::MinRegisteredClub::get(),

@@ -1,9 +1,10 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
+mod mock;
+mod tests;
+
 pub use pallet::*;
 use sp_std::prelude::*;
-
-
 
 #[frame_support::pallet]
 pub mod pallet {
@@ -12,7 +13,6 @@ pub mod pallet {
 	use frame_system::pallet_prelude::*;
 	use scale_info::prelude::{vec, vec::Vec};
 	use sp_std::default::Default as OtherDefault;
-
 
 	// The struct on which we build all of our Pallet logic.
 	#[pallet::pallet]
@@ -107,7 +107,7 @@ pub mod pallet {
 			// ensure club_name exist in ClubNames storage
 			let registered_club = RegisteredClubs::<T>::iter_values();
 
-			let registered_club_count =  RegisteredClubs::<T>::iter_values().count();
+			let registered_club_count = RegisteredClubs::<T>::iter_values().count();
 
 			ensure!(
 				registered_club_count as u8 >= T::MinRegisteredClub::get(),
@@ -127,25 +127,11 @@ pub mod pallet {
 			// get members
 			let members = ClubMembers::<T>::get(club_name.clone());
 
-			// check if members  exists
-			if members.is_some() {
-				// get the known members
-				let mut known_members = members.unwrap();
+			// create new vec of members
+			let mut new_members = vec![];
+			new_members.push(member.clone());
 
-				// ensure member is not already part of the known members
-				ensure!(!known_members.contains(&member), Error::<T>::MemberAlreadyExistInClub);
-
-				// insert member into known members
-				let _ = known_members.push(member.clone());
-
-				ClubMembers::<T>::insert(club_name.clone(), known_members);
-			} else {
-				// create new vec of members
-				let mut new_members = vec![];
-				new_members.push(member.clone());
-
-				ClubMembers::<T>::insert(club_name.clone(), new_members);
-			}
+			ClubMembers::<T>::insert(club_name.clone(), new_members);
 
 			Self::deposit_event(Event::AccountAdded(club_name.clone(), member.clone()));
 
@@ -164,7 +150,7 @@ pub mod pallet {
 			// ensure club_name exist in ClubNames storage
 			let registered_club = RegisteredClubs::<T>::iter_values();
 
-			let registered_club_count =  RegisteredClubs::<T>::iter_values().count();
+			let registered_club_count = RegisteredClubs::<T>::iter_values().count();
 
 			ensure!(
 				registered_club_count as u8 >= T::MinRegisteredClub::get(),

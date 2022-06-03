@@ -1,5 +1,9 @@
+use super::*;
 use crate as pallet_template;
-use frame_support::traits::{ConstU16, ConstU64};
+use frame_support::{
+	pallet_prelude::GenesisBuild,
+	traits::{ConstU16, ConstU64},
+};
 use frame_system as system;
 use sp_core::H256;
 use sp_runtime::{
@@ -51,13 +55,34 @@ impl system::Config for Test {
 
 impl pallet_template::Config for Test {
 	type Event = Event;
+	type MinRegisteredClub = frame_support::traits::ConstU8<2>;
 }
 
 // Build genesis storage according to the mock runtime.
 pub fn new_test_ext() -> sp_io::TestExternalities {
-	system::GenesisConfig::default().build_storage::<Test>().unwrap().into()
+	let registered_club1 = (0 as u8, b"chelsea".to_vec());
+	let registered_club2 = (1 as u8, b"arsenal".to_vec());
+
+	let mut registered_clubs_vec = vec![];
+	registered_clubs_vec.push(registered_club1);
+	registered_clubs_vec.push(registered_club2);
+
+	let mut storage = system::GenesisConfig::default().build_storage::<Test>().unwrap();
+
+	pallet_template::GenesisConfig::<Test> {
+		phantom: Default::default(),
+		registered_clubs: Some(registered_clubs_vec),
+	}
+	.assimilate_storage(&mut storage)
+	.unwrap();
+
+	let mut ext = sp_io::TestExternalities::new(storage);
+	ext.execute_with(|| System::set_block_number(1));
+	ext
 }
 
-pub fn assert_last_event<T: pallet_template::Config> (generic_event: <T as pallet_template::Config>::Event) {
+pub fn assert_last_event<T: pallet_template::Config>(
+	generic_event: <T as pallet_template::Config>::Event,
+) {
 	frame_system::Pallet::<T>::assert_last_event(generic_event.into());
 }
