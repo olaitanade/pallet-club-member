@@ -3753,6 +3753,7 @@ dependencies = [
  "sp-inherents",
  "sp-keyring",
  "sp-runtime",
+ "sp-std",
  "sp-timestamp",
  "substrate-build-script-utils",
  "substrate-frame-rpc-system",
@@ -4019,6 +4020,7 @@ dependencies = [
  "sp-core",
  "sp-io",
  "sp-runtime",
+ "sp-std",
 ]
 
 [[package]]
@@ -4105,6 +4107,7 @@ dependencies = [
  "sp-core",
  "sp-io",
  "sp-runtime",
+ "sp-std",
 ]
 
 [[package]]

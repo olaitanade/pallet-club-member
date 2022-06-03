@@ -57,3 +57,7 @@ impl pallet_template::Config for Test {
 pub fn new_test_ext() -> sp_io::TestExternalities {
 	system::GenesisConfig::default().build_storage::<Test>().unwrap().into()
 }
+
+pub fn assert_last_event<T: pallet_template::Config> (generic_event: <T as pallet_template::Config>::Event) {
+	frame_system::Pallet::<T>::assert_last_event(generic_event.into());
+}

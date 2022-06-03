@@ -264,11 +264,13 @@ impl pallet_sudo::Config for Runtime {
 /// Configure the pallet-template in pallets/template.
 impl pallet_template::Config for Runtime {
 	type Event = Event;
+	type MinRegisteredClub = ConstU8<2>;
 }
 
 /// Configure the pallet-clubmember in pallets/clubmember.
 impl pallet_clubmember::Config for Runtime {
 	type Event = Event;
+	type MinRegisteredClub = ConstU8<2>;
 }
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
